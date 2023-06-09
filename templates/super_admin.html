@@ -1,0 +1,57 @@
+{% extends 'superbase.html' %}
+
+{% block content %}
+
+<div class="container">
+    <div class="row">
+        <div class="col-sm-2"></div>
+        <div class="col-sm-8 mt-5">
+            <h1 style="font-size: 48px;">
+                <center>QUIZ</center>
+            </h1>
+
+            <div class="mt-5">
+                {% for q in listquestions %}
+                <ol>
+                    <ul>
+                        <li>
+                            Q:{{q.question_text }}
+                        </li>
+
+                    
+                       <li>
+                        {{q.option_1}}
+                       </li>
+
+                    
+                        <li>
+                            {{q.option_2}}
+
+                        </li>
+                    
+                        <li>
+                            {{q.option_3}}
+                        </li>
+
+                    
+                       <li>
+                        {{q.option_4}}
+
+                       </li>
+                    
+                       <li>
+                        Answer : {{q.answer}}
+                       </li>
+                    </ul>
+
+                    <a href="{ % url 'question_update' q.id % }">Edit</a>
+                </ol>
+               
+                {%endfor%}
+            </div>
+        </div>
+        <div class="col-sm-2"></div>
+    </div>
+</div>
+
+{% endblock content %}

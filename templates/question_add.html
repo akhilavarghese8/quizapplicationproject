@@ -1,0 +1,59 @@
+{% extends 'superbase.html' %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+{% block content %}
+ 
+
+<form method="post">
+
+  <div class="container mt-4" style="width: 50%;">
+    <h2>Add Questions</h2>
+
+    <div class="card card-body">
+      <div class="mt-4" style="margin-left: 20px;margin-right: 20px;">
+        {%csrf_token%}
+        {{form.as_p}}
+      </div>
+      <div class="text-center mt-4">
+        <input class="btn btn-info" type="submit" value="Submit">
+      </div>
+    </div>
+  </div>
+</form>
+
+</div>
+
+
+
+
+
+
+
+{% endblock content %}
+</body>
+</html>
+
+
+ 
+<!-- <div class="jumbotron container row">
+    <div class="col-md-6">
+        <h1>Add Question</h1>
+        <div class="card card-body">
+           <form action="" method="POST">
+              {% csrf_token %}
+                {{form.as_p}}
+                <br>
+             <input type="submit" name="Submit">
+             </form>
+            </div>
+        </div>
+    </div>
+ 
+</div> -->

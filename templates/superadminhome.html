@@ -1,0 +1,25 @@
+{% extends 'superbase.html' %}
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-sm-2"></div>
+        <div class="col-sm-8 mt-5">
+            <h1 style="font-size: 48px;">
+                <center>QUIZ</center>
+            </h1>
+            <img src="https://media.proprofs.com/images/QM/user_images/2503852/New%20Project%20(92)(111).jpg"
+                width="1000px" height="400px" class="img-fluid" alt="Sample image"><br>
+
+            <div class="mt-5" >
+                <button type="submit" class="btn btn-warning" style="width: 750px;"><a href="{% url 'question_add' %}">Start Quiz</a></button>
+                
+            </div>
+            <div class="mt-5" >
+                <button type="submit" class="btn btn-warning" style="width: 750px;"><a href="{% url 'question_update' %}">Edit Quiz</a></button>
+                
+            </div>
+        </div>
+        <div class="col-sm-2"></div>
+    </div>
+</div>
+{% endblock content %}
