@@ -77,7 +77,7 @@ class SignInView(FormView):
         return render(request,"login.html",{"form":form})
             
 class ErrorPageView(TemplateView):
-    template_name='errorpage.html'
+    template_name='error.html'
 
  
 class IndexView(CreateView):
