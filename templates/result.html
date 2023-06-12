@@ -20,14 +20,14 @@
     <h1>Quiz Result</h1>
     <h2>Your Score: {{ score }}</h2>
 
-    <h3>Your answers:</h3>
+    
     <ul>
         {% for question in questions %}
         <li>
-            <strong>{{ question.question_text }}</strong>
+            <strong>{{ question.selected_option }}</strong>
             <br>
-            Your answer: {{ question.question_text }}
-            {% if question.question_text == question.correct_option %}
+            Your answer: {{ question.selected_option }}
+            {% if question.selected_option == question.question.answer %}
                 <span style="color: green;">(Correct)</span>
             {% else %}
                 <span style="color: red;">(Incorrect)</span>

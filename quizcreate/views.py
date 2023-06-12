@@ -62,7 +62,7 @@ class SignInView(FormView):
                 login(request, user)
                 print(user)
                 if request.user.role == 'superadmin':
-                    return redirect('superadmin-index')
+                    return redirect('super-index')
                 elif request.user.role == 'user':
                     return redirect('user-index')
 
@@ -80,53 +80,25 @@ class ErrorPageView(TemplateView):
     template_name='errorpage.html'
 
  
-class IndexView(CreateView,ListView):
+class IndexView(CreateView):
     model=Question
     form_class=QuestionForm
     template_name="index.html"
     success_url=reverse_lazy("user-index")
-    context_object_name="questions"
+    
     def form_valid(self,form):
         form.instance.user=self.request.user
         return super().form_valid(form)
     
-class SuperAdminIndexView(TemplateView):
+class SuperAdminIndexView(ListView):
+    model=Question
     template_name="superbase.html"
+    context_object_name='listquestions'
 
 
-    
-# class QuestionListView(View):
-#     def get(self, request):
-#         questions = Question.objects.all()
-#         context = {'questions': questions}
-#         # return HttpResponse("hhhhhhhh")
-#         return render(request, 'question_list.html', context)
-    
-# def test_view(request):
-#     questions = Question.objects.all()
-#     context = {'questions': questions}
-#     return render(request, 'question_list.html', context)    
+ 
 
 
-# class QuestionListView(View):
-#     def get(self, request):
-#         questions = Question.objects.all()
-#         context = {'questions': questions, 'form': QuestionForm()}  # Include the form in the context
-#         return render(request, 'question_list.html', context)
-
-    # def post(self, request):
-    #     form = QuestionForm(request.POST)  # Create an instance of the form with the submitted data
-    #     if form.is_valid():
-    #         user = request.user
-    #         for question in Question.objects.all():
-    #             selected_option = request.POST.get(f'question_{question.id}')
-    #             QuizResult.objects.create(user=user, question=question, selected_option=selected_option)
-    #         return redirect('results')  # Redirect to the result page
-    #     else:
-    #         questions = Question.objects.all()
-    #         context = {'questions': questions, 'form': form}  # Pass the form back to the template
-    #         return render(request, 'question_list.html', context)
-        
 class QuestionListView(ListView):
     model=Question
     template_name='question_list.html'
@@ -137,18 +109,15 @@ class QuestionListView(ListView):
     # def get_queryset(self):
     #     return Question.objects.filter(is_active=True)
 
-class QuestionView(ListView):
-    model=Question
-    template_name='super_admin.html'
-    context_object_name='listquestions'
 
 class QuestionAddView(CreateView):
     model=Question
     form_class=QuestionForm
     template_name='question_add.html'
-    success_url=reverse_lazy('questions')
+    success_url=reverse_lazy('super-index')
+    
 
-    def form_valid(self, form):
+    def form_valid(self,form):
        form.instance.user=self.request.user
        return super().form_valid(form)
     
@@ -157,68 +126,26 @@ class QuestionUpdateView(UpdateView):
     form_class=QuestionForm
     template_name="question_update.html"
     
-    success_url=reverse_lazy("superadmin-index")    
+    success_url=reverse_lazy("listquestions")    
 
 
     # def form_valid(self, form):
     #     qn=Question.objects.get(user=self.request.user)
     #     form.instance.company=qn
     #     return super().form_valid(form)
+class QuestionDeleteView(View):
+    def get(self,request,*args,**kwargs):
+        id=kwargs.get("id")
+        Question.objects.get(id=id).delete()     
+        return redirect('super-index') 
     
+# class   QuestionDeleteView(View):
+#     def get(self,request,*args,**kwargs):
+#         id=kwargs.get('id')
+#         question=Question.objects.filter(id=id)
+#         Question.objects.filter(id=id).update(is_active=False)
+#         return redirect('super-index')
 
-
-
-# class QuizResultView(View):
-#     def post(self, request):
-#         user = request.user
-#         for question in Question.objects.all():
-#             selected_option = request.POST.get(f'question_{question.id}')
-#             QuizResult.objects.create(user=user, question=question, selected_option=selected_option)
-#             return render(request, 'result.html')
-
-
-# class QuestionListView(View):
-#     def get(self, request):
-#         questions = Question.objects.all()
-#         context = {'questions': questions}  # Include the form in the context
-#         return render(request, 'question_list.html', context)
-
-#     def post(self, request):
-#         form = QuestionForm(request.POST)  # Create an instance of the form with the submitted data
-#         if form.is_valid():
-#             user = request.user
-#             for question in Question.objects.all():
-#                 selected_option = request.POST.get(f'question_{question.id}')
-#                 QuizResult.objects.create(user=user, question=question, selected_option=selected_option)
-#             return redirect('results-add')  # Redirect to the result page
-#         else:
-#             questions = Question.objects.all()
-#             context = {'questions': questions, 'form': form}  # Pass the form back to the template
-#             return render(request, 'question_list.html', context)
-        
-    
-    
-# class QuizResultView(View):
-#     def get(self, request):
-#         # Display a form to input quiz answers
-#         questions = Question.objects.all()
-#         form = QuestionForm()
-#         context = {'questions': questions, 'form': form}
-#         return render(request, 'result.html', context)
-
-#     def post(self, request):
-#         user = request.user
-#         questions = Question.objects.all()
-#         score = 0
-
-#         for question in questions:
-#             selected_option = request.POST.get(f'question_{question.id}')
-#             if selected_option == str(question.answer):
-#                 score += 1
-#             QuizResult.objects.create(user=user, question=question, selected_option=selected_option)
-
-#         context = {'questions': questions, 'score': score}
-#         return render(request, 'result.html', context)
 
 class QuizResultView(View):
     def get(self, request,*args,**kwargs):
