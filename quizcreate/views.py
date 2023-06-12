@@ -139,12 +139,7 @@ class QuestionDeleteView(View):
         Question.objects.get(id=id).delete()     
         return redirect('super-index') 
     
-# class   QuestionDeleteView(View):
-#     def get(self,request,*args,**kwargs):
-#         id=kwargs.get('id')
-#         question=Question.objects.filter(id=id)
-#         Question.objects.filter(id=id).update(is_active=False)
-#         return redirect('super-index')
+
 
 
 class QuizResultView(View):
